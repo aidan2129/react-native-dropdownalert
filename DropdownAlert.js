@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -106,8 +106,8 @@ export default class DropdownAlert extends Component {
     onTap: PropTypes.func,
   };
   static defaultProps = {
-    onClose: () => {},
-    onCancel: () => {},
+    onClose: () => { },
+    onCancel: () => { },
     closeInterval: 4000,
     startDelta: -100,
     endDelta: 0,
@@ -189,7 +189,7 @@ export default class DropdownAlert extends Component {
     accessible: false,
     titleTextProps: undefined,
     messageTextProps: undefined,
-    onTap: () => {},
+    onTap: () => { },
   };
   constructor(props) {
     super(props);
@@ -233,7 +233,7 @@ export default class DropdownAlert extends Component {
     return this.props.panResponderEnabled;
   };
   _onShouldMovePan = (event, gestureState) => {
-    const {sensitivity, panResponderEnabled} = this.props;
+    const { sensitivity, panResponderEnabled } = this.props;
     const dx = Math.abs(gestureState.dx);
     const dy = Math.abs(gestureState.dy);
     const isDxSensitivity = dx < sensitivity;
@@ -242,7 +242,7 @@ export default class DropdownAlert extends Component {
   };
   _onMovePan = (event, gestureState) => {
     if (gestureState.dy < 0) {
-      this.setState({topValue: gestureState.dy});
+      this.setState({ topValue: gestureState.dy });
     }
   };
   _onDonePan = (event, gestureState) => {
@@ -277,7 +277,7 @@ export default class DropdownAlert extends Component {
   ) => {
     // type is not validated so unexpected types will render alert with default styles.
     // these default styles can be overridden with style props. (for example, containerStyle)
-    const {closeInterval} = this.props;
+    const { closeInterval } = this.props;
     // title and message are converted to strings
     const data = {
       type,
@@ -310,14 +310,14 @@ export default class DropdownAlert extends Component {
   };
   open = (data = {}) => {
     this.alertData = data;
-    this.setState({isOpen: true});
+    this.setState({ isOpen: true });
     this.animate(1, 450, () => {
       if (data.interval > 0) {
         this.closeAutomatic(data.interval);
       }
     });
   };
-  closeAction = (action = ACTION.programmatic, onDone = () => {}) => {
+  closeAction = (action = ACTION.programmatic, onDone = () => { }) => {
     // action is how the alert was closed.
     // alert currently closes itself by:
     // tap, pan, cancel, programmatic or automatic
@@ -332,9 +332,9 @@ export default class DropdownAlert extends Component {
       this.close(ACTION.automatic);
     }, interval);
   };
-  close = (action, onDone = () => {}) => {
+  close = (action, onDone = () => { }) => {
     this.animate(0, 250, () => {
-      const {onClose, updateStatusBar, onCancel, onTap} = this.props;
+      const { onClose, updateStatusBar, onCancel, onTap } = this.props;
       this.alertData.action = action;
       this.queue.dequeue();
       if (action === ACTION.cancel) {
@@ -345,7 +345,7 @@ export default class DropdownAlert extends Component {
         }
         onClose(this.alertData);
       }
-      this.setState({isOpen: false, topValue: 0, height: 0});
+      this.setState({ isOpen: false, topValue: 0, height: 0 });
       this.updateStatusBar(updateStatusBar, false);
       this._processQueue();
       onDone();
@@ -371,7 +371,7 @@ export default class DropdownAlert extends Component {
           StatusBar.setBackgroundColor(inactiveStatusBarBackgroundColor, true);
         }
       }
-      const {inactiveStatusBarStyle, activeStatusBarStyle} = this.props;
+      const { inactiveStatusBarStyle, activeStatusBarStyle } = this.props;
       if (active) {
         StatusBar.setBarStyle(activeStatusBarStyle, true);
       } else {
@@ -384,8 +384,8 @@ export default class DropdownAlert extends Component {
       clearTimeout(this.closeTimeoutID);
     }
   };
-  animate = (toValue, duration = 450, onComplete = () => {}) => {
-    const {useNativeDriver, isInteraction} = this.props;
+  animate = (toValue, duration = 450, onComplete = () => { }) => {
+    const { useNativeDriver, isInteraction } = this.props;
     Animated.spring(this.animationValue, {
       toValue: toValue,
       duration: duration,
@@ -425,27 +425,27 @@ export default class DropdownAlert extends Component {
     return [start, end];
   };
   getStyleForType = (type) => {
-    const {defaultContainer} = this.props;
+    const { defaultContainer } = this.props;
     switch (type) {
       case TYPE.info:
         return [
           StyleSheet.flatten(defaultContainer),
-          {backgroundColor: this.props.infoColor},
+          { backgroundColor: this.props.infoColor },
         ];
       case TYPE.warn:
         return [
           StyleSheet.flatten(defaultContainer),
-          {backgroundColor: this.props.warnColor},
+          { backgroundColor: this.props.warnColor },
         ];
       case TYPE.error:
         return [
           StyleSheet.flatten(defaultContainer),
-          {backgroundColor: this.props.errorColor},
+          { backgroundColor: this.props.errorColor },
         ];
       case TYPE.success:
         return [
           StyleSheet.flatten(defaultContainer),
-          {backgroundColor: this.props.successColor},
+          { backgroundColor: this.props.successColor },
         ];
       default:
         return [
@@ -483,18 +483,18 @@ export default class DropdownAlert extends Component {
     }
   };
   _onLayoutEvent = (event) => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
     if (height > this.state.height) {
-      const {startDelta, endDelta} = this.props;
+      const { startDelta, endDelta } = this.props;
       const start = this.getStartDelta(height, startDelta);
       const end = this.getEndDelta(height, endDelta);
       if (startDelta !== start || endDelta !== end) {
-        this.setState({height});
+        this.setState({ height });
       }
     }
   };
   _renderImage = (source, imageStyle) => {
-    const {renderImage} = this.props;
+    const { renderImage } = this.props;
     if (renderImage) {
       return renderImage(this.props, this.alertData);
     }
@@ -509,7 +509,7 @@ export default class DropdownAlert extends Component {
       style.height = DEFAULT_IMAGE_DIMENSIONS;
     }
     const isRemote = typeof source === 'string';
-    const src = isRemote ? {uri: source} : source;
+    const src = isRemote ? { uri: source } : source;
     return <Image style={style} source={src} />;
   };
   _renderTitle = (title) => {
@@ -519,7 +519,7 @@ export default class DropdownAlert extends Component {
     if (!title || title.length === 0) {
       return null;
     }
-    const {titleTextProps, titleStyle, titleNumOfLines} = this.props;
+    const { titleTextProps, titleStyle, titleNumOfLines } = this.props;
     return (
       <Text
         {...titleTextProps}
@@ -536,7 +536,7 @@ export default class DropdownAlert extends Component {
     if (!message || message.length === 0) {
       return null;
     }
-    const {messageTextProps, messageStyle, messageNumOfLines} = this.props;
+    const { messageTextProps, messageStyle, messageNumOfLines } = this.props;
     return (
       <Text
         {...messageTextProps}
@@ -568,7 +568,7 @@ export default class DropdownAlert extends Component {
     );
   };
   render() {
-    const {isOpen} = this.state;
+    const { isOpen } = this.state;
     if (!isOpen) {
       return null;
     }
@@ -589,8 +589,8 @@ export default class DropdownAlert extends Component {
       showCancel,
       imageStyle,
     } = this.props;
-    const {topValue, height} = this.state;
-    const {type, payload, title, message} = this.alertData;
+    const { topValue, height } = this.state;
+    const { type, payload, title, message } = this.alertData;
     let style = this.getStyleForType(type);
     let imageSrc = this.getSourceForType(type);
     // imageSrc is overridden when payload has source property
@@ -604,7 +604,7 @@ export default class DropdownAlert extends Component {
       imageSrc = payload.source;
     }
     if (IS_ANDROID && translucent) {
-      style = [style, {paddingTop: StatusBar.currentHeight}];
+      style = [style, { paddingTop: StatusBar.currentHeight }];
     }
     this.updateStatusBar(updateStatusBar, true);
     const outputRange = this.getOutputRange(height, startDelta, endDelta);
@@ -647,16 +647,16 @@ export default class DropdownAlert extends Component {
           testID={testID}
           accessibilityLabel={accessibilityLabel}
           accessible={accessible}>
-          <View style={style}>
-            <ContentView style={StyleSheet.flatten(contentContainerStyle)}>
+          <ContentView style={StyleSheet.flatten(contentContainerStyle)}>
+            <View style={style}>
               {this._renderImage(imageSrc, imageStyle)}
               <View style={StyleSheet.flatten(defaultTextContainer)}>
                 {this._renderTitle(title)}
                 {this._renderMessage(message)}
               </View>
               {this._renderCancel(showCancel)}
-            </ContentView>
-          </View>
+            </View>
+          </ContentView>
         </TouchableOpacity>
       </Animated.View>
     );
