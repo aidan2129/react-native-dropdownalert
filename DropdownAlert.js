@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   View,
   TouchableOpacity,
   Animated,
@@ -22,6 +21,7 @@ import {
   getDefaultStatusBarBackgroundColor,
 } from './Utils';
 import Queue from './Queue';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default class DropdownAlert extends Component {
   static propTypes = {
