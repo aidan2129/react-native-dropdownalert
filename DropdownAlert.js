@@ -627,7 +627,7 @@ export default class DropdownAlert extends Component {
       wrapperAnimStyle.zIndex = zIndex;
     }
     let ContentView = SafeAreaView;
-    if (IS_IOS_BELOW_11 || IS_ANDROID) {
+    if (IS_IOS_BELOW_11) {
       ContentView = View;
     }
     const activeOpacity = !tapToCloseEnabled || showCancel ? 1 : 0.95;
